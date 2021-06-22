@@ -30,9 +30,9 @@ if __name__ == "__main__":
     group_topics = etree.HTML(group.text).xpath("//table[@class='olt']/tr/td[@class='title']/a/@href")
     group_topics = group_topics[5:]
     for topic_url in group_topics:
-        comment_topic_url = topic_url + "/add_comment#last"
+        comment_topic_url = topicUrl + "/add_comment#last"
         comment_str = " "
-        comment_dict = comment.writeComment(topic_url, comment_str)
+        comment_dict = comment.writeComment(topicUrl, comment_str)
         comment.sendComment(comment_topic_url, comment_dict)
         random_sleep = random.randint(100, 500)
         time.sleep(random_sleep)
