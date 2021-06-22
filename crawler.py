@@ -32,7 +32,7 @@ def getHeaders(fileName=None):
 
 
 def login(url, pwd, userName):
-    loginData = {'ck': '', 'name': userName, 'password': pwd, 'remember': 'true'}
+    loginData = {'ck': jqr.getCKFormCookies(), 'name': userName, 'password': pwd, 'remember': 'true'}
     loginHeaders = getHeaders('login_headers.txt')
     l = session.post(url, data=loginData, headers=loginHeaders)
 
@@ -73,7 +73,8 @@ def main():
     q = SimpleQueue()
     cred = verification.getCred()
     pwd = cred['pwd']
-    userName = cred['userName']
+    username = cred['userName']
+    login("https://accounts.douban.com/passport/login", pwd, username)
     loginReqUrl = ''
 
     refresh_count = 0
@@ -95,7 +96,7 @@ def main():
         if q.qsize() == 0:
             log.debug("Empty queue, sleep")
             time.sleep(5)
-        log.info("****selection, Queue size: ", q.qsize(), "Sleep time: " + str(timeToSleep) + "****")
+        log.info("****Queue size: ", q.qsize(), "Sleep time: " + str(timeToSleep) + "****")
         try:
             while q.qsize() > 0:
                 topicUrl = group_url + '/' + selectPost()
