@@ -8,6 +8,7 @@ import jqr
 import logger
 
 log = logger.LogModule()
+session = requests.Session
 
 def getCred(fileName='confidentials/pwd.txt'):
     data = {}
@@ -56,12 +57,12 @@ def getTextFromPic(pic_path) -> str:
         return ""
 
 
-def getCaptchaInfo(session, postUrl, r=None):
+def getCaptchaInfo(topicUrl, r=None):
     # 获取验证码的图片URL和id
     if r is not None:
         return parseCaptcha(r)
     time.sleep(10)
-    r = session.get(postUrl, cookies=jqr.getCookies())
+    r = session.get(topicUrl, cookies=jqr.getCookies())
     #r = requests.get(postUrl, cookies=jqr.getCookies())
     if r.status_code == 200:
     # error handling
@@ -84,7 +85,7 @@ def parseCaptcha(r):
         return "", ""
 
 
-def save_pic_to_disk(pic_url, session):
+def save_pic_to_disk(pic_url):
     # 将链接中的图片保存到本地，并返回文件名
     try:
         if not os.path.exists(filepath.image_path):
